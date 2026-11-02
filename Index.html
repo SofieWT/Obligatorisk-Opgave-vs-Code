@@ -11,7 +11,28 @@
 </head>
 <body>
     <div id="app">
-        
+        <div>
+            <h1>Records</h1>
+            <button class="btn btn-primary" @click="getRecords">Get All Records</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>title</th>
+                        <th>artist</th>
+                        <th>duration</th>
+                        <th>publicationYear</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="record in records">
+                        <td>{{ record.title }}</td>
+                        <td>{{ record.artist }}</td>
+                        <td>{{ record.duration }}</td>
+                        <td>{{ record.publicationYear }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="Index.js"></script>
 </body>
