@@ -4,6 +4,7 @@ Vue.createApp({
     data() {
         return{
             records: [],
+            toGetTitle: '',
             
         }
     },
@@ -16,6 +17,10 @@ Vue.createApp({
                 .catch(error => {
                     console.error('Error fetching records:', error);
                 });
+        },
+        FilterByTitle(Title) {
+            const title = this.toGetTitle
+            
         }
     }
 
