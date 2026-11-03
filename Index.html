@@ -11,9 +11,22 @@
 <body>
     <div id="app">
         <div class="container mt-5">
-        <h1>Records</h1>
-        <br>            
-            <div>
+
+            <h1>Records</h1>
+            <br>
+            <div v-if="!loggedIn" class="d-flex gap-2">
+                <input v-model="auth.username" placeholder="Username" type="text">
+                <input v-model="auth.password" placeholder="Password" type="password">
+                <button @click="login" class="btn btn-primary">Login</button>
+                <p v-if="authMessage">{{ authMessage }}</p>
+            </div>
+            <div v-else>
+                <div>
+                    <p>Welcome, {{auth.username}} you are logged in!</p>
+                    <button @click="logout" class="btn btn-danger">Logout</button>
+                    <br>
+                    <br>
+                </div>
                 <h2>Get All Records</h2> 
                 <button class="btn btn-primary" id="getAllButton" @click="getRecords">Get All Records</button>
                 <br>
@@ -38,8 +51,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </div> 
-            <div>
+            
+                <div>
                 <h2> Filter records</h2>
                 <input type="text" v-model="filterCriteria" placeholder="Filter kriterium" class="form-control mb-3" id="filterInput">
                 
@@ -62,13 +75,11 @@
                     <button class="Btn btn-primary" @click="FilterByDuration(filterCriteria)" id="filterByDurationButton">Filter By Duration</button>
                     <button class="Btn btn-primary" @click="FilterByPublicationYear(filterCriteria)" id="filterByPublicationYearButton">Filter By Publication Year</button>
                 </div>
-            </div>
-            <div>
+                <div>
+                    
 
-
-                
-            </div>
-
+                </div>
+            </div>  
         </div>
     </div>
     <script src="Index.js"></script>
