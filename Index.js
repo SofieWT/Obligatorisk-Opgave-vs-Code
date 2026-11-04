@@ -1,4 +1,5 @@
 const baseURL= "https://localhost:7171/api/Records"
+const authURL= "https://localhost:7171/api/auth/login"
 
 Vue.createApp({
     data() {
@@ -8,10 +9,32 @@ Vue.createApp({
             toGetArtist: '',
             toGetDuration: null,
             toGetPublicationYear: '',
-            filterCriteria: ''
+            filterCriteria: '',
+            auth: { username:"", password:""},
+            jwtToken: null,
+            role: null,
+            loggedIn: false,
+            authMessage: '',
         }
     },
     methods: {
+          login(){
+            axios.post(authURL, this.auth)
+            .then(response => {
+                this.jwtToken = response.data.token;
+                this.role = response.data.role;
+                this.loggedIn = true;
+                this.authMessage = "Welcome, " + this.auth.username + " you are logged in!";
+            }).catch(error => {
+                this.authMessage = "Authentication failed: " + error.response.data.message;
+            });
+        },
+        logout() {
+            this.jwtToken = '';
+            this.role = '';
+            this.loggedIn = false;
+            this.authMessage = 'Logged out successfully.';
+        },
         getRecords() {
             axios.get(baseURL)
                 .then(response => {
@@ -75,7 +98,8 @@ Vue.createApp({
                 .catch(error => {
                     console.error('Error fetching records by publication year:', error);
                 });
-        }
+        },
+
     }
 
 }).mount('#app')
