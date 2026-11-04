@@ -75,9 +75,8 @@
                     <button class="Btn btn-primary" @click="FilterByDuration(filterCriteria)" id="filterByDurationButton">Filter By Duration</button>
                     <button class="Btn btn-primary" @click="FilterByPublicationYear(filterCriteria)" id="filterByPublicationYearButton">Filter By Publication Year</button>
                 </div>
-                <div>
-                    
-
+                <div v-if="role=='admin'">
+                    <h2>Add Record</h2>
                 </div>
             </div>  
         </div>
