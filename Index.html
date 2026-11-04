@@ -39,7 +39,6 @@
                             <th>Artist</th>
                             <th>Duration</th>
                             <th>Publication Year</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,8 +77,11 @@
                     <button class="Btn btn-primary" @click="FilterByArtist(filterCriteria)" id="filterByArtistButton">Filter By Artist</button>
                     <button class="Btn btn-primary" @click="FilterByDuration(filterCriteria)" id="filterByDurationButton">Filter By Duration</button>
                     <button class="Btn btn-primary" @click="FilterByPublicationYear(filterCriteria)" id="filterByPublicationYearButton">Filter By Publication Year</button>
+                    <p v-else>No records found.</p> 
                 </div>
+
                 <div>
+                    <p>Only for admin users.</p>
                     <h2> Add New Record</h2>
                     <input type="text" v-model="newRecord.title" placeholder="Title" class="form-control mb-3" id="titleInput">
                     <input type="text" v-model="newRecord.artist" placeholder="Artist" class="form-control mb-3" id="artistInput">
@@ -87,6 +89,11 @@
                     <input type="text" v-model="newRecord.publicationYear" placeholder="Publication Year" class="form-control mb-3" id="publicationYearInput">
                     <button class="btn btn-success" @click="addRecord" id="addRecordButton">Add Record</button>
                     <p v-if="addRecordMessage">{{ addRecordMessage }}</p>
+
+                    <h2> Delete Record</h2>
+                    <input type="number" v-model="deleteRecordId" placeholder="Record ID">
+                    <button class="btn btn-danger" @click="deleteRecord(deleteRecordId)" id="deleteRecordButton">Delete Record</button>
+                    <p v-if="deleteRecordMessage">{{ deleteRecordMessage }}</p>
                 </div>
             </div>  
         </div>

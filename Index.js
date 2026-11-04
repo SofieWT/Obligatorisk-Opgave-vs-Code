@@ -22,6 +22,7 @@ Vue.createApp({
                 publicationYear: ""
             },
             addRecordMessage: "",
+            
         }
     },
     methods: {
@@ -153,7 +154,7 @@ Vue.createApp({
                 }
             })
                 .then(response => {
-                    this.records = this.records.filter(record => record.id == recordId);
+                    this.records = this.records.filter(record => record.id !== recordId);
                 })
                 .catch(error => {
                     console.error('Error deleting record:', error);
