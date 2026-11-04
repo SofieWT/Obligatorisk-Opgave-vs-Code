@@ -145,8 +145,21 @@ Vue.createApp({
                     console.error('Error adding record:', error);
                     this.addRecordMessage = 'Error adding record.';
                 });
-        }
+        },
+        deleteRecord(recordId) {
+            axios.delete(`${baseURL}/${recordId}`, {
+                headers: {
+                    'Authorization': `Bearer ${this.jwtToken}`
+                }
+            })
+                .then(response => {
+                    this.records = this.records.filter(record => record.id == recordId);
+                })
+                .catch(error => {
+                    console.error('Error deleting record:', error);
+                });
 
+        }
     }
 
 }).mount('#app')
