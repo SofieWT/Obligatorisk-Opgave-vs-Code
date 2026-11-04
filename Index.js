@@ -1,33 +1,40 @@
-const baseURL= "https://localhost:7171/api/Records"
-const authURL= "https://localhost:7171/api/auth/login"
+const baseURL = "https://localhost:7171/api/Records"
+const authURL = "https://localhost:7171/api/auth/login"
 
 Vue.createApp({
     data() {
-        return{
+        return {
             records: [],
             toGetTitle: '',
             toGetArtist: '',
             toGetDuration: null,
             toGetPublicationYear: '',
             filterCriteria: '',
-            auth: { username:"", password:""},
+            auth: { username: "", password: "" },
             jwtToken: null,
             role: null,
             loggedIn: false,
             authMessage: '',
+            newRecord: {
+                title: "",
+                artist: "",
+                durationInSecs: null,
+                publicationYear: ""
+            },
+            addRecordMessage: "",
         }
     },
     methods: {
-          login(){
+        login() {
             axios.post(authURL, this.auth)
-            .then(response => {
-                this.jwtToken = response.data.token;
-                this.role = response.data.role;
-                this.loggedIn = true;
-                this.authMessage = "Welcome, " + this.auth.username + " you are logged in!";
-            }).catch(error => {
-                this.authMessage = "Authentication failed: " + error.response.data.message;
-            });
+                .then(response => {
+                    this.jwtToken = response.data.token;
+                    this.role = response.data.role;
+                    this.loggedIn = true;
+                    this.authMessage = "Welcome, " + this.auth.username + " you are logged in!";
+                }).catch(error => {
+                    this.authMessage = "Authentication failed: " + error.response.data.message;
+                });
         },
         logout() {
             this.jwtToken = '';
@@ -36,7 +43,11 @@ Vue.createApp({
             this.authMessage = 'Logged out successfully.';
         },
         getRecords() {
-            axios.get(baseURL)
+            axios.get(baseURL, {
+                headers: {
+                    'Authorization': `Bearer ${this.jwtToken}`
+                }
+            })
                 .then(response => {
                     this.records = response.data;
                 })
@@ -60,11 +71,16 @@ Vue.createApp({
             else {
                 this.getRecords();
             }
-            
+
             // Implement filtering logic here
         },
         FilterByTitle(title) {
-            axios.get(`${baseURL}?title=${title}`)
+            axios.get(`${baseURL}?title=${title}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.jwtToken}`
+                    }
+                })
                 .then(response => {
                     this.records = response.data;
                 })
@@ -73,7 +89,12 @@ Vue.createApp({
                 });
         },
         FilterByArtist(artist) {
-            axios.get(`${baseURL}?artist=${artist}`)
+            axios.get(`${baseURL}?artist=${artist}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.jwtToken}`
+                    }
+                })
                 .then(response => {
                     this.records = response.data;
                 })
@@ -82,7 +103,12 @@ Vue.createApp({
                 });
         },
         FilterByDuration(duration) {
-            axios.get(`${baseURL}?durationInSecs=${duration}`)
+            axios.get(`${baseURL}?durationInSecs=${duration}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.jwtToken}`
+                    }
+                })
                 .then(response => {
                     this.records = response.data;
                 })
@@ -91,7 +117,12 @@ Vue.createApp({
                 });
         },
         FilterByPublicationYear(publicationYear) {
-            axios.get(`${baseURL}?publicationYear=${publicationYear}`)
+            axios.get(`${baseURL}?publicationYear=${publicationYear}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.jwtToken}`
+                    }
+                })
                 .then(response => {
                     this.records = response.data;
                 })
@@ -99,6 +130,22 @@ Vue.createApp({
                     console.error('Error fetching records by publication year:', error);
                 });
         },
+        addRecord() {
+            axios.post(baseURL, this.newRecord, {
+                headers: {
+                    'Authorization': `Bearer ${this.jwtToken}`
+                }
+            })
+                .then(response => {
+                    this.records.push(response.data);
+                    this.addRecordMessage = 'Record added successfully.';
+                    this.newRecord = { title: "", artist: "", durationInSecs: null, publicationYear: "" }; // Reset the form
+                })
+                .catch(error => {
+                    console.error('Error adding record:', error);
+                    this.addRecordMessage = 'Error adding record.';
+                });
+        }
 
     }
 
