@@ -24,7 +24,7 @@ Vue.createApp({
                 this.jwtToken = response.data.token;
                 this.role = response.data.role;
                 this.loggedIn = true;
-                this.authMessage = "Authentication successful!";
+                this.authMessage = "Welcome, " + this.auth.username + " you are logged in!";
             }).catch(error => {
                 this.authMessage = "Authentication failed: " + error.response.data.message;
             });

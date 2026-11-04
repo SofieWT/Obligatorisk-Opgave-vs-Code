@@ -15,14 +15,14 @@
             <h1>Records</h1>
             <br>
             <div v-if="!loggedIn" class="d-flex gap-2">
-                <input v-model="auth.username" placeholder="Username" type="text">
-                <input v-model="auth.password" placeholder="Password" type="password">
-                <button @click="login" class="btn btn-primary">Login</button>
+                <input v-model="auth.username" id ="username" placeholder="Username" type="text">
+                <input v-model="auth.password" id="password" placeholder="Password" type="password">
+                <button @click="login" class="btn btn-primary" id="loginButton">Login</button>
                 <p v-if="authMessage">{{ authMessage }}</p>
             </div>
             <div v-else>
                 <div>
-                    <p>Welcome, {{auth.username}} you are logged in!</p>
+                    <p id="welcomeMessage">{{ authMessage }}</p>
                     <button @click="logout" class="btn btn-danger">Logout</button>
                     <br>
                     <br>
