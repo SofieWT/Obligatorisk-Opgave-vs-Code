@@ -35,8 +35,6 @@ Vue.createApp({
             this.loggedIn = false;
             this.authMessage = 'Logged out successfully.';
         },
-
-
         getRecords() {
             axios.get(baseURL)
                 .then(response => {
